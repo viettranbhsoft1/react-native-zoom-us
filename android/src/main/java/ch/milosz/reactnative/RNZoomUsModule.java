@@ -132,6 +132,14 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     return "RNZoomUs";
   }
 
+  @Override
+  public void onUserConfirmRecoverMeeting(us.zoom.sdk.IRecoverMeetingHandle handle) {
+      Log.d(TAG, "onUserConfirmRecoverMeeting triggered");
+      if (handle != null) {
+          handle.reject(); // Or handle.confirm() depending on your use case
+      }
+  }
+
   @ReactMethod
   public void isInitialized(final Promise promise) {
     UiThreadUtil.runOnUiThread(new Runnable() {
@@ -672,11 +680,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
             MobileRTCSDKError result = shareController.startShareScreenContent();
 
-            if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-              promise.resolve(null);
-            } else {
-              promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
-            }
+            // if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+            //   promise.resolve(null);
+            // } else {
+            //   promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
+            // }
+            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
           }
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
@@ -689,7 +698,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     final ZoomSDK zoomSDK = ZoomSDK.getInstance();
     final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-    MobileRTCSDKError result = shareController.startShareScreenSession(intent);
+    MobileRTCSDKError result = shareController.startShareViewContent(intent);
 
     if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
       sendEvent("MeetingEvent", "screenShareSuccess");
@@ -1104,8 +1113,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onSilentModeChanged(boolean inSilentMode) {}
   @Override
   public void onMeetingActiveVideo(long userId) {}
-  @Override
-  public void onSinkAttendeeChatPriviledgeChanged(int privilege) {}
+  // @Override
+  // public void onSinkAttendeeChatPriviledgeChanged(int privilege) {}
   @Override
   public void onSinkAllowAttendeeChatNotification(int privilege) {}
   @Override
@@ -1170,19 +1179,19 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   // InMeetingShareListener event listeners
   // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
-  @Override
-  public void onShareActiveUser(long userId) {
-    final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+  // @Override
+  // public void onShareActiveUser(long userId) {
+  //   final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
 
-    if (inMeetingService.isMyself(userId)) {
-      sendEvent("MeetingEvent", "screenShareStarted");
-    } else if (userId == 0) {
-      sendEvent("MeetingEvent", "screenShareStopped");
-    }
-  }
+  //   if (inMeetingService.isMyself(userId)) {
+  //     sendEvent("MeetingEvent", "screenShareStarted");
+  //   } else if (userId == 0) {
+  //     sendEvent("MeetingEvent", "screenShareStopped");
+  //   }
+  // }
 
-  @Override
-  public void onShareContentChanged(MobileRTCShareContentType type) {}
+  // @Override
+  // public void onShareContentChanged(MobileRTCShareContentType type) {}
 
   @Override
   public void onShareSettingTypeChanged(ShareSettingType type) {}
@@ -1190,23 +1199,23 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onShareUserReceivingStatus(long userId) {}
 
-  @Override
-  public void onSharingStatus(SharingStatus status, long userId) {
-    updateVideoView();
+  // @Override
+  // public void onSharingStatus(SharingStatus status, long userId) {
+  //   updateVideoView();
 
-    sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
+  //   sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
 
-    if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
-      final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
-      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+  //   if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
+  //     final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+  //     final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
 
-      if (shareController.isSharingOut()) {
-        if (shareController.isSharingScreen()) {
-            shareController.startShareScreenContent();
-        }
-      }
-    }
-  }
+  //     if (shareController.isSharingOut()) {
+  //       if (shareController.isSharingScreen()) {
+  //           // shareController.startShareScreenContent();
+  //       }
+  //     }
+  //   }
+  // }
 
   // React LifeCycle
   @Override
@@ -1367,7 +1376,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
 
   private String getAuthErrorName(final int errorCode) {
     switch (errorCode) {
-      case ZoomError.ZOOM_ERROR_AUTHRET_CLIENT_INCOMPATIBLEE: return "clientIncompatible";
+      case ZoomError.ZOOM_ERROR_AUTHRET_CLIENT_INCOMPATIBLE: return "clientIncompatible";
       case ZoomError.ZOOM_ERROR_SUCCESS: return "success";
       case ZoomError.ZOOM_ERROR_DEVICE_NOT_SUPPORTED: return "deviceNotSupported"; // Android only
       case ZoomError.ZOOM_ERROR_ILLEGAL_APP_KEY_OR_SECRET: return "illegalAppKeyOrSecret"; // Android only
@@ -1388,7 +1397,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingError.MEETING_ERROR_RESTRICTED_JBH: return "meetingRestrictedJBH";
       case MeetingError.MEETING_ERROR_USER_FULL: return "meetingUserFull";
       case MeetingError.MEETING_ERROR_MMR_ERROR: return "mmrError";
-      case MeetingError.MEETING_ERROR_NETWORK_ERROR: return "networkError";
+      // case MeetingError.MEETING_ERROR_NETWORK_ERROR: return "networkError";
       case MeetingError.MEETING_ERROR_NO_MMR: return "noMMR";
       case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
       case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
@@ -1413,11 +1422,11 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingEndReason.END_BY_HOST: return "endedByHost";
       case MeetingEndReason.END_BY_HOST_START_ANOTHERMEETING: return "endedByHostForAnotherMeeting";
       case MeetingEndReason.END_BY_SELF: return "endedBySelf";
-      case MeetingEndReason.END_BY_SDK_CONNECTION_BROKEN: return "endedConnectBroken";
+      case MeetingEndReason.END_UNDEFINED: return "endedUndefined";
       case MeetingEndReason.END_FOR_FREEMEET_TIMEOUT: return "endedFreeMeetingTimeout";
-      case MeetingEndReason.END_FOR_JBHTIMEOUT: return "endedJBHTimeout";
+      case MeetingEndReason.END_FOR_JBH_TIMEOUT: return "endedJBHTimeout";
       case MeetingEndReason.KICK_BY_HOST: return "endedRemovedByHost";
-      case MeetingEndReason.END_FOR_NOATEENDEE: return "endedNoAttendee"; // Android only
+      case MeetingEndReason.END_FOR_NO_ATEENDEE: return "endedNoAttendee"; // Android only
       default: return "endedUnknownReason";
     }
   }
