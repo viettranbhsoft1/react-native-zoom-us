@@ -136,7 +136,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onUserConfirmRecoverMeeting(us.zoom.sdk.IRecoverMeetingHandle handle) {
       Log.d(TAG, "onUserConfirmRecoverMeeting triggered");
       if (handle != null) {
-          handle.reject(); // Or handle.confirm() depending on your use case
+          handle.recoverMeeting(true); // Or handle.confirm() depending on your use case
       }
   }
 
