@@ -1215,21 +1215,21 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onShareUserReceivingStatus(long userId) {}
 
   @Override
-  public void onSharingStatus(SharingStatus status, long userId) {
-    updateVideoView();
+  public void onSharingStatus(ZoomSDKSharingSourceInfo type) {
+    // updateVideoView();
 
-    sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
+    // sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
 
-    if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
-      final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
-      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+    // if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
+    //   final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+    //   final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
 
-      if (shareController.isSharingOut()) {
-        if (shareController.isSharingScreen()) {
-            // shareController.startShareScreenContent();
-        }
-      }
-    }
+    //   if (shareController.isSharingOut()) {
+    //     if (shareController.isSharingScreen()) {
+    //         // shareController.startShareScreenContent();
+    //     }
+    //   }
+    // }
   }
 
   // React LifeCycle
@@ -1283,25 +1283,25 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       }
     });
   }
-  @Override
-  public void onCatalystInstanceDestroy() {
-    Log.i(TAG, "onCatalystInstanceDestroy");
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-          if (zoomSDK.isInitialized()) {
-            zoomSDK.getMeetingService().leaveCurrentMeeting(false);
-          }
+  // @Override
+  // public void onCatalystInstanceDestroy() {
+  //   Log.i(TAG, "onCatalystInstanceDestroy");
+  //   UiThreadUtil.runOnUiThread(new Runnable() {
+  //     @Override
+  //     public void run() {
+  //       try {
+  //         final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  //         if (zoomSDK.isInitialized()) {
+  //           zoomSDK.getMeetingService().leaveCurrentMeeting(false);
+  //         }
 
-          unregisterListener();
-        } catch (Exception ex) {
-          Log.e(TAG, ex.getMessage());
-        }
-      }
-    });
-  }
+  //         unregisterListener();
+  //       } catch (Exception ex) {
+  //         Log.e(TAG, ex.getMessage());
+  //       }
+  //     }
+  //   });
+  // }
 
   // React Native event emitters and event handling
   private void sendEvent(String name, String event) {
