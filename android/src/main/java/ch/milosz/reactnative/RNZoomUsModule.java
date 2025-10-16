@@ -49,6 +49,7 @@ import us.zoom.sdk.IMeetingInputUserInfoHandler;
 import us.zoom.sdk.MeetingEndReason;
 import us.zoom.sdk.MeetingSettingsHelper;
 import us.zoom.sdk.MobileRTCShareContentType;
+import us.zoom.sdk.ZoomSDKSharingSourceInfo;
 import us.zoom.sdk.ZoomSDK;
 import us.zoom.sdk.ZoomError;
 import us.zoom.sdk.ZoomSDKInitializeListener;
@@ -1205,7 +1206,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   // }
 
   @Override
-  public void onShareContentChanged(MobileRTCShareContentType type) {}
+  public void onShareContentChanged(ZoomSDKSharingSourceInfo type) {}
 
   @Override
   public void onShareSettingTypeChanged(ShareSettingType type) {}
