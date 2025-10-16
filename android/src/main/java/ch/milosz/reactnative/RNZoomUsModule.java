@@ -89,7 +89,7 @@ import us.zoom.sdk.MobileRTCFocusModeShareType;
 public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
-  private final static int SCREEN_SHARE_REQUEST_CODE = 99;
+  private final static int SCREEN_SHARE_REQUEST_CODE = 99; 
   private final ReactApplicationContext reactContext;
 
   private Boolean shouldAutoConnectAudio;
@@ -1113,6 +1113,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onSilentModeChanged(boolean inSilentMode) {}
   @Override
   public void onMeetingActiveVideo(long userId) {}
+  @Override
+  public void onChatMessageEditNotification(InMeetingChatMessage inMeetingChatMessage) {}
+  @Override
+  public void onRemoveCompanionRelation(long userId) {}
   // @Override
   // public void onSinkAttendeeChatPriviledgeChanged(int privilege) {}
   @Override
