@@ -67,10 +67,10 @@ RCT_EXPORT_METHOD(
   withReject: (RCTPromiseRejectBlock)reject
 )
 {
-  if (isInitialized) {
-    resolve(@"Already initialize Zoom SDK successfully.");
-    return;
-  }
+  // if (isInitialized) {
+  //   resolve(@"Already initialize Zoom SDK successfully.");
+  //   return;
+  // }
 
   isInitialized = true;
 

@@ -179,20 +179,20 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           }
 
           ZoomSDK zoomSDK = ZoomSDK.getInstance();
-          if (zoomSDK.isInitialized()) {
-            // Apply fresh settings
+          // if (zoomSDK.isInitialized()) {
+          //   // Apply fresh settings
 
-            // This setting process wouldn't be working because meetingSettingsHelper is null at this time.
-            final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
-            if (meetingSettingsHelper != null) {
-              meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
-              meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
-              meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
-            }
+          //   // This setting process wouldn't be working because meetingSettingsHelper is null at this time.
+          //   final MeetingSettingsHelper meetingSettingsHelper = ZoomSDK.getInstance().getMeetingSettingsHelper();
+          //   if (meetingSettingsHelper != null) {
+          //     meetingSettingsHelper.disableShowVideoPreviewWhenJoinMeeting(shouldDisablePreview);
+          //     meetingSettingsHelper.setCustomizedMeetingUIEnabled(customizedMeetingUIEnabled);
+          //     meetingSettingsHelper.disableClearWebKitCache(disableClearWebKitCache);
+          //   }
 
-            promise.resolve("Already initialize Zoom SDK successfully.");
-            return;
-          }
+          //   promise.resolve("Already initialize Zoom SDK successfully.");
+          //   return;
+          // }
 
           String[] parts = settings.getString("language").split("-");
           Locale locale = parts.length == 1
