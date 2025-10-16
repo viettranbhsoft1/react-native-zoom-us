@@ -1117,8 +1117,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onChatMessageEditNotification(InMeetingChatMessage inMeetingChatMessage) {}
   @Override
   public void onRemoveCompanionRelation(long userId) {}
-  // @Override
-  // public void onSinkAttendeeChatPriviledgeChanged(int privilege) {}
+  @Override
+  public void onSinkAttendeeChatPrivilegeChanged(int privilege) {}
   @Override
   public void onSinkAllowAttendeeChatNotification(int privilege) {}
   @Override
@@ -1180,6 +1180,10 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onMuteOnEntryStatusChange(boolean enable){}
   @Override
   public void onMeetingTopicChanged(String topic) {}
+  @Override 
+  public void onCreateCompanionRelation(long userId, long l) {}
+  @Override
+  public void onBotAuthorizerRelationChanged(long userId) {}
 
   // InMeetingShareListener event listeners
   // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
@@ -1194,8 +1198,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   //   }
   // }
 
-  // @Override
-  // public void onShareContentChanged(MobileRTCShareContentType type) {}
+  @Override
+  public void onShareContentChanged(MobileRTCShareContentType type) {}
 
   @Override
   public void onShareSettingTypeChanged(ShareSettingType type) {}
@@ -1203,23 +1207,23 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onShareUserReceivingStatus(long userId) {}
 
-  // @Override
-  // public void onSharingStatus(SharingStatus status, long userId) {
-  //   updateVideoView();
+  @Override
+  public void onSharingStatus(SharingStatus status, long userId) {
+    updateVideoView();
 
-  //   sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
+    sendEvent("MeetingEvent", getSharingStatusEventName(status), userId);
 
-  //   if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
-  //     final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
-  //     final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
+    if (status.equals(SharingStatus.Sharing_Self_Send_Begin)) {
+      final InMeetingService inMeetingService = ZoomSDK.getInstance().getInMeetingService();
+      final InMeetingShareController shareController = inMeetingService.getInMeetingShareController();
 
-  //     if (shareController.isSharingOut()) {
-  //       if (shareController.isSharingScreen()) {
-  //           // shareController.startShareScreenContent();
-  //       }
-  //     }
-  //   }
-  // }
+      if (shareController.isSharingOut()) {
+        if (shareController.isSharingScreen()) {
+            // shareController.startShareScreenContent();
+        }
+      }
+    }
+  }
 
   // React LifeCycle
   @Override
