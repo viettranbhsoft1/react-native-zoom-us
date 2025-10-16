@@ -1184,6 +1184,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onCreateCompanionRelation(long userId, long l) {}
   @Override
   public void onBotAuthorizerRelationChanged(long userId) {}
+  @Override
+  public void onMeetingFullToWatchLiveStream(String msgID) {}
+  @Override 
+  public void onVirtualNameTagStatusChanged(boolean enable, long l) {}
+  @Override 
+  public void onVirtualNameTagRosterInfoUpdated(long userId) {}
 
   // InMeetingShareListener event listeners
   // DEPRECATED: onShareActiveUser is just kept for now for backwards compatibility of events
