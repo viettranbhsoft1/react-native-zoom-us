@@ -238,13 +238,13 @@ async function muteAllAttendee(allowUnmuteSelf: boolean) {
   return RNZoomUs.muteAllAttendee(allowUnmuteSelf);
 }
 
-async function startShareScreen() {
-  return RNZoomUs.startShareScreen();
-}
+// async function startShareScreen() {
+//   return RNZoomUs.startShareScreen();
+// }
 
-async function stopShareScreen() {
-  return RNZoomUs.stopShareScreen();
-}
+// async function stopShareScreen() {
+//   return RNZoomUs.stopShareScreen();
+// }
 
 async function switchCamera() {
   return RNZoomUs.switchCamera();
@@ -277,8 +277,8 @@ export default {
   muteMyAudio,
   muteAttendee,
   muteAllAttendee,
-  startShareScreen,
-  stopShareScreen,
+  // startShareScreen,
+  // stopShareScreen,
   switchCamera,
   raiseMyHand,
   lowerMyHand,

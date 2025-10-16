@@ -337,34 +337,34 @@ RCT_EXPORT_METHOD(muteAllAttendee: (BOOL)allowUnmuteSelf resolver:(RCTPromiseRes
   }
 }
 
-RCT_EXPORT_METHOD(startShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  @try {
-    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    if (!ms) {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
-      return;
-    }
-    if ([ms startAppShare]) {
-      resolve(nil);
-    } else {
-      reject(@"ERR_ZOOM_MEETING_CONTROL", @"Fail to share screen", nil);
-    }
-  } @catch (NSError *ex) {
-    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing startShareScreen", ex);
-  }
-}
+// RCT_EXPORT_METHOD(startShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+//   @try {
+//     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+//     if (!ms) {
+//       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Cannot get meeting service.", nil);
+//       return;
+//     }
+//     if ([ms startAppShare]) {
+//       resolve(nil);
+//     } else {
+//       reject(@"ERR_ZOOM_MEETING_CONTROL", @"Fail to share screen", nil);
+//     }
+//   } @catch (NSError *ex) {
+//     reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing startShareScreen", ex);
+//   }
+// }
 
-RCT_EXPORT_METHOD(stopShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-  @try {
-    MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
-    if (ms) {
-      [ms stopAppShare];
-    }
-    resolve(nil);
-  } @catch (NSError *ex) {
-    reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing stopShareScreen", ex);
-  }
-}
+// RCT_EXPORT_METHOD(stopShareScreen: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+//   @try {
+//     MobileRTCMeetingService *ms = [[MobileRTC sharedRTC] getMeetingService];
+//     if (ms) {
+//       [ms stopAppShare];
+//     }
+//     resolve(nil);
+//   } @catch (NSError *ex) {
+//     reject(@"ERR_ZOOM_MEETING_CONTROL", @"Executing stopShareScreen", ex);
+//   }
+// }
 
 RCT_EXPORT_METHOD(switchCamera: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   @try {

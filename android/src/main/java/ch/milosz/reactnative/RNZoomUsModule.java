@@ -110,7 +110,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           @Override
           public void run() {
             try {
-              startZoomScreenShare(intent);
+              // startZoomScreenShare(intent);
             } catch (Exception ex) {
               Log.e(TAG, ex.getMessage());
             }
@@ -651,90 +651,90 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     });
   }
 
-  @ReactMethod
-  public void startShareScreen(final Promise promise) {
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  // @ReactMethod
+  // public void startShareScreen(final Promise promise) {
+  //   UiThreadUtil.runOnUiThread(new Runnable() {
+  //     @Override
+  //     public void run() {
+  //       try {
+  //         final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-          if (!zoomSDK.isInitialized()) {
-            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-            return;
-          }
+  //         if (!zoomSDK.isInitialized()) {
+  //           promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+  //           return;
+  //         }
 
-          if (customizedMeetingUIEnabled) {
-            final MediaProjectionManager manager =
-              (MediaProjectionManager) reactContext.getCurrentActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+  //         if (customizedMeetingUIEnabled) {
+  //           final MediaProjectionManager manager =
+  //             (MediaProjectionManager) reactContext.getCurrentActivity().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
 
-            if (manager != null) {
-              Intent intent = manager.createScreenCaptureIntent();
+  //           if (manager != null) {
+  //             Intent intent = manager.createScreenCaptureIntent();
 
-              reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
-            }
+  //             reactContext.getCurrentActivity().startActivityForResult(intent, SCREEN_SHARE_REQUEST_CODE);
+  //           }
 
-            promise.resolve(null);
-          } else {
-            final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+  //           promise.resolve(null);
+  //         } else {
+  //           final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-            MobileRTCSDKError result = shareController.startShareScreenContent();
+  //           MobileRTCSDKError result = shareController.startShareScreenContent();
 
-            // if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-            //   promise.resolve(null);
-            // } else {
-            //   promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
-            // }
-            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
-          }
-        } catch (Exception ex) {
-          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-        }
-      }
-    });
-  }
+  //           // if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+  //           //   promise.resolve(null);
+  //           // } else {
+  //           //   promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
+  //           // }
+  //           promise.reject("ERR_ZOOM_MEETING_CONTROL", "Start share screen error, status: " + result.name());
+  //         }
+  //       } catch (Exception ex) {
+  //         promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+  //       }
+  //     }
+  //   });
+  // }
 
-  private void startZoomScreenShare(final Intent intent) {
-    final ZoomSDK zoomSDK = ZoomSDK.getInstance();
-    final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+  // private void startZoomScreenShare(final Intent intent) {
+  //   final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  //   final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-    MobileRTCSDKError result = shareController.startShareViewContent(intent);
+  //   MobileRTCSDKError result = shareController.startShareViewContent(intent);
 
-    if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-      sendEvent("MeetingEvent", "screenShareSuccess");
-    } else {
-      sendEvent("MeetingEvent", "screenShareError", result);
-    }
-  }
+  //   if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+  //     sendEvent("MeetingEvent", "screenShareSuccess");
+  //   } else {
+  //     sendEvent("MeetingEvent", "screenShareError", result);
+  //   }
+  // }
 
-  @ReactMethod
-  public void stopShareScreen(final Promise promise) {
-    UiThreadUtil.runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          final ZoomSDK zoomSDK = ZoomSDK.getInstance();
+  // @ReactMethod
+  // public void stopShareScreen(final Promise promise) {
+  //   UiThreadUtil.runOnUiThread(new Runnable() {
+  //     @Override
+  //     public void run() {
+  //       try {
+  //         final ZoomSDK zoomSDK = ZoomSDK.getInstance();
 
-          if (!zoomSDK.isInitialized()) {
-            promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
-            return;
-          }
+  //         if (!zoomSDK.isInitialized()) {
+  //           promise.reject("ERR_ZOOM_MEETING_CONTROL", "ZoomSDK has not been initialized successfully");
+  //           return;
+  //         }
 
-          final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
+  //         final InMeetingShareController shareController = zoomSDK.getInMeetingService().getInMeetingShareController();
 
-          MobileRTCSDKError result = shareController.stopShareScreen();
+  //         MobileRTCSDKError result = shareController.stopShareScreen();
 
-          if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
-            promise.resolve(null);
-          } else {
-            promise.reject("ERR_ZOOM_MEETING_CONTROL", "Stop share screen error, status: " + result.name());
-          }
-        } catch (Exception ex) {
-          promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
-        }
-      }
-    });
-  }
+  //         if (result == MobileRTCSDKError.SDKERR_SUCCESS) {
+  //           promise.resolve(null);
+  //         } else {
+  //           promise.reject("ERR_ZOOM_MEETING_CONTROL", "Stop share screen error, status: " + result.name());
+  //         }
+  //       } catch (Exception ex) {
+  //         promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
+  //       }
+  //     }
+  //   });
+  // }
 
   @ReactMethod
   public void switchCamera(final Promise promise) {
@@ -1402,7 +1402,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
       case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
       case MeetingError.MEETING_ERROR_REGISTER_WEBINAR_FULL: return "registerWebinarFull";
-      case MeetingError.MEETING_ERROR_DISALLOW_HOST_RESGISTER_WEBINAR: return "registerWebinarHostRegister";
+      case MeetingError.MEETING_ERROR_DISALLOW_HOST_REGISTER_WEBINAR: return "registerWebinarHostRegister";
       case MeetingError.MEETING_ERROR_DISALLOW_PANELIST_REGISTER_WEBINAR: return "registerWebinarPanelistRegister";
       case MeetingError.MEETING_ERROR_REMOVED_BY_HOST: return "removedByHost";
       case MeetingError.MEETING_ERROR_SESSION_ERROR: return "sessionError";
