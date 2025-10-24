@@ -19,8 +19,8 @@ buildscript {
 
 android {
     namespace = 'ch.milosz.reactnative'
-    compileSdkVersion 34
-    buildToolsVersion '34.0.0'
+    compileSdkVersion 35
+    buildToolsVersion '35.0.0'
 
     defaultConfig {
         minSdkVersion 26
@@ -28,10 +28,24 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
-        ndkVersion = "24.0.8215888"
+        // ndkVersion = "24.0.8215888"
+    }
+    viewBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+        minifyEnabled false
+        }
     }
     lintOptions {
         abortOnError false
+        disable 'GradleCompatible'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
