@@ -44,6 +44,7 @@ import us.zoom.sdk.InMeetingEventHandler;
 import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.InMeetingServiceListener;
 import us.zoom.sdk.InMeetingShareController;
+import us.zoom.sdk.InMeetingShareController.InMeetingShareListener;
 import us.zoom.sdk.InMeetingUserInfo;
 import us.zoom.sdk.IMeetingInputUserInfoHandler;
 import us.zoom.sdk.MeetingEndReason;
@@ -87,7 +88,7 @@ import us.zoom.sdk.MobileRTCFocusModeShareType;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
-public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, MeetingServiceListener, InMeetingShareController.InMeetingShareListener, LifecycleEventListener {
+public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
   private final static int SCREEN_SHARE_REQUEST_CODE = 99; 
@@ -136,9 +137,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   @Override
   public void onUserConfirmRecoverMeeting(us.zoom.sdk.IRecoverMeetingHandle handle) {
       Log.d(TAG, "onUserConfirmRecoverMeeting triggered");
-      if (handle != null) {
-          handle.recoverMeeting(true); // Or handle.confirm() depending on your use case
-      }
+      // if (handle != null) {
+      //     handle.recoverMeeting(true); // Or handle.confirm() depending on your use case
+      // }
   }
 
   @ReactMethod
