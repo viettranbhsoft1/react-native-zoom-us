@@ -1,7 +1,5 @@
 import {
   NativeModules,
-  HostComponent,
-  requireNativeComponent,
   Platform,
   StyleProp,
   ViewStyle,
@@ -38,9 +36,6 @@ export interface NativeVideoProps {
 }
 
 // TODO: implement for iOS -> https://github.com/mieszko4/react-native-zoom-us/issues/113
-export const RNZoomUsVideoView = (
-  Platform.OS === 'android' ? requireNativeComponent('RNZoomUsVideoView') : null
-) as HostComponent<NativeVideoProps> | null
 
 export const RNZoomUs = NativeModules.RNZoomUs
 if (!RNZoomUs) console.error('[react-native-zoom-us] RNZoomUs native module is not linked.')
