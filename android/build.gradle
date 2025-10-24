@@ -19,6 +19,10 @@ buildscript {
     }
 }
 
+def getExtOrDefault(name) {
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['ZoomMeetingSDK_' + name]
+}
+
 def kotlin_version = getExtOrDefault('kotlinVersion')
 
 android {
