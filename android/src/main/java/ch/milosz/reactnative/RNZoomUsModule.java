@@ -78,7 +78,6 @@ import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
 import us.zoom.sdk.MeetingService;
-import us.zoom.sdk.InMeetingService;
 import us.zoom.sdk.MeetingServiceListener;
 
 import us.zoom.sdk.MobileRTCSDKError;
@@ -1224,7 +1223,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   public void onShareSettingTypeChanged(ShareSettingType type) {}
 
   @Override
-  public void onShareUserReceivingStatus(long userId) {}
+  public void onShareUserReceivingStatus(long shareSourceId) {}
 
   @Override
   public void onSharingStatus(ZoomSDKSharingSourceInfo type) {
