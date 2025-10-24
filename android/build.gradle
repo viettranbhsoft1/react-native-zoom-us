@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 buildscript {
-    def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['ZoomMeetingSDK_kotlinVersion']
-
     repositories {
         google()
         mavenCentral()
@@ -15,15 +13,9 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21"
     }
 }
-
-def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['ZoomMeetingSDK_' + name]
-}
-
-def kotlin_version = getExtOrDefault('kotlinVersion')
 
 android {
     namespace = 'ch.milosz.reactnative'
@@ -36,6 +28,7 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
+        ndkVersion = "24.0.8215888"
     }
     lintOptions {
         abortOnError false
