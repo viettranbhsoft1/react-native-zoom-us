@@ -1412,7 +1412,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       case MeetingError.MEETING_ERROR_RESTRICTED_JBH: return "meetingRestrictedJBH";
       case MeetingError.MEETING_ERROR_USER_FULL: return "meetingUserFull";
       case MeetingError.MEETING_ERROR_MMR_ERROR: return "mmrError";
-      // case MeetingError.MEETING_ERROR_NETWORK_ERROR: return "networkError";
+      case MeetingError.MEETING_ERROR_CONNECTION_ERR: return "networkError";
       case MeetingError.MEETING_ERROR_NO_MMR: return "noMMR";
       case MeetingError.MEETING_ERROR_HOST_DENY_EMAIL_REGISTER_WEBINAR: return "registerWebinarDeniedEmail";
       case MeetingError.MEETING_ERROR_WEBINAR_ENFORCE_LOGIN: return "registerWebinarEnforceLogin";
