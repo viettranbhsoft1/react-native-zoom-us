@@ -1,11 +1,16 @@
 package ch.milosz.reactnative;
 
+import android.app.Service;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
 import android.media.projection.MediaProjectionManager;
 import androidx.fragment.app.FragmentActivity;
+import android.view.WindowManager;
+import androidx.annotation.Nullable;
+import android.view.Display;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -63,6 +68,12 @@ import us.zoom.sdk.ZoomSDKFileReceiver;
 import us.zoom.sdk.ZoomSDKFileSender;
 import us.zoom.sdk.ZoomSDKFileTransferInfo;
 
+import us.zoom.sdk.InMeetingServiceListener.VideoStatus;
+import us.zoom.sdk.InMeetingServiceListener.AudioStatus;
+import us.zoom.sdk.InMeetingServiceListener.UVCCameraStatus;
+import us.zoom.sdk.InMeetingServiceListener.RecordingStatus;
+import us.zoom.sdk.InMeetingAudioController.MobileRTCMicrophoneError;
+import us.zoom.sdk.ZoomSDKChatMessageType;
 import us.zoom.sdk.SharingStatus;
 import us.zoom.sdk.MeetingStatus;
 import us.zoom.sdk.MeetingError;
@@ -88,7 +99,7 @@ import us.zoom.sdk.MobileRTCFocusModeShareType;
 
 // Please note that SDK initialization and all API call must run in Main Thread.
 // See https://marketplace.zoom.us/docs/sdk/native-sdks/android/mastering-zoom-sdk/sdk-initialization/
-public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, MeetingServiceListener, LifecycleEventListener {
+public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSDKInitializeListener, InMeetingServiceListener, InMeetingShareController.InMeetingShareListener, MeetingServiceListener, LifecycleEventListener {
 
   private final static String TAG = "RNZoomUs";
   private final static int SCREEN_SHARE_REQUEST_CODE = 99; 
