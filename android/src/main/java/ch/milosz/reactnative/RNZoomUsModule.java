@@ -112,6 +112,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
   private Boolean customizedMeetingUIEnabled = false;
   private Boolean disableClearWebKitCache = false;
 
+  private ReadableMap latestSettings;  //  store the latest settings
+
   private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, final Intent intent) {
@@ -136,6 +138,16 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
     reactContext.addLifecycleEventListener(this);
     reactContext.addActivityEventListener(mActivityEventListener);
   }
+
+  private void setLocaleIfNeeded(ZoomSDK zoomSDK, ReadableMap settings) {
+    if (settings != null && settings.hasKey("language")) {
+        String[] parts = settings.getString("language").split("-");
+        Locale locale = parts.length == 1
+            ? new Locale(parts[0])
+            : new Locale(parts[0], parts[1]);
+        zoomSDK.setSdkLocale(reactContext, locale);
+    }
+ }
 
   @Override
   public String getName() {
@@ -179,9 +191,9 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
             shouldDisablePreview = settings.getBoolean("disableShowVideoPreviewWhenJoinMeeting");
           }
 
-          if (settings.hasKey("enableCustomizedMeetingUI")) {
-            customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
-          }
+          // if (settings.hasKey("enableCustomizedMeetingUI")) {
+          //   customizedMeetingUIEnabled = settings.getBoolean("enableCustomizedMeetingUI");
+          // }
 
           if (settings.hasKey("disableClearWebKitCache")) {
             disableClearWebKitCache = settings.getBoolean("disableClearWebKitCache");
@@ -202,13 +214,12 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           //   promise.resolve("Already initialize Zoom SDK successfully.");
           //   return;
           // }
-
-          String[] parts = settings.getString("language").split("-");
-          Locale locale = parts.length == 1
-            ? new Locale(parts[0])
-            : new Locale(parts[0], parts[1]);
-          zoomSDK.setSdkLocale(reactContext, locale);
-
+          if (zoomSDK.isInitialized()) {
+            // Already initialized, safe to set locale or join meeting
+            setLocaleIfNeeded(zoomSDK, settings);
+            promise.resolve("Already initialized");
+            return;
+          }
           ZoomSDKInitParams initParams = new ZoomSDKInitParams();
           initParams.jwtToken = params.getString("jwtToken");
           initParams.domain = params.getString("domain");
@@ -219,6 +230,7 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
           // Save promise so that it can be resolved in onZoomSDKInitializeResult
           // after zoomSDK.initialize is called
           initializePromise = promise;
+          latestSettings = settings; // Save the settings to apply after initialization
           zoomSDK.initialize(reactContext.getCurrentActivity(), RNZoomUsModule.this, initParams);
         } catch (Exception ex) {
           promise.reject("ERR_UNEXPECTED_EXCEPTION", ex);
@@ -836,6 +848,8 @@ public class RNZoomUsModule extends ReactContextBaseJavaModule implements ZoomSD
       initializePromise = null;
     } else {
       registerListener();
+      ZoomSDK zoomSDK = ZoomSDK.getInstance();
+      setLocaleIfNeeded(zoomSDK, latestSettings);
       initializePromise.resolve("Initialize Zoom SDK successfully.");
       initializePromise = null;
 
